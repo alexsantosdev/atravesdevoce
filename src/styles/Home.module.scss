@@ -135,6 +135,7 @@
         font-size: 100px;
         line-height: 102px;
         font-weight: 500;
+        max-width: 100%;
     }
 
     span {
@@ -678,6 +679,7 @@
     
     .mainContent {
         h2 {
+            max-width: 100%;
             font-size: 80px;
             line-height: 82px;
         }
@@ -890,11 +892,6 @@
     
         align-items: center;
         justify-content: center;
-    }
-
-    h2 {
-        width: 100%;
-        max-width: 100%;
     }
 }
 
@@ -971,6 +968,7 @@
     
     .mainContent {
         h2 {
+            max-width: 100%;
             font-size: 80px;
             line-height: 82px;
         }
@@ -1183,10 +1181,5 @@
     
         align-items: center;
         justify-content: center;
-    }
-
-    h2 {
-        width: 100%;
-        max-width: 100%;
     }
 }
