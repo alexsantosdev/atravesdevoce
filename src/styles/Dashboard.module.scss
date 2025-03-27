@@ -1,0 +1,178 @@
+.main {
+  width: 100%;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  button {
+    background: var(--red-500);
+    border: 1px solid var(--gray-175);
+    border-radius: 8px;
+
+    padding: 10px 14px;
+
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+      transition: filter .2s;
+      filter: brightness(0.8);
+    }
+  }
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.statTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+
+  color: var(--gray-700);
+}
+
+.table th {
+  font-weight: 500;
+  color: #6b7280;
+  background-color: #f9fafb;
+}
+
+.table tr:hover {
+  background-color: #f9fafb;
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+// Invite statuses
+.statusPAID {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.statusCONFIRMED {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.statusPENDING {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.statusFAILED {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+// Transaction statuses
+.statusSUCCESS {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+// Ticket statuses
+.statusVALID {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.statusUSED {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.statusCANCELLED {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.loadingSpinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+} 

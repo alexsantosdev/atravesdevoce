@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "7ad25a3c-b70b-440e-9950-3603c1673096",
+		"name": "PagBank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8413910"
+	},
+	"item": [
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Pix",
+					"item": [
+						{
+							"name": "Criar pedido Pix",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "45c93bce-5213-4492-9864-6fa9e7ead52fb82f788241019b784bb89c3d38aee79ff3be-8bd7-41d5-9f95-cd965fa2ed56",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"reference_id\": \"ex-00001\",\r\n  \"customer\": {\r\n    \"name\": \"Jose da Silva\",\r\n    \"email\": \"email@test.com\",\r\n    \"tax_id\": \"12345678909\",\r\n    \"phones\": [\r\n      {\r\n        \"country\": \"55\",\r\n        \"area\": \"11\",\r\n        \"number\": \"999999999\",\r\n        \"type\": \"MOBILE\"\r\n      }\r\n    ]\r\n  },\r\n  \"items\": [\r\n    {\r\n      \"name\": \"nome do item\",\r\n      \"quantity\": 1,\r\n      \"unit_amount\": 500\r\n    }\r\n  ],\r\n  \"qr_codes\": [\r\n    {\r\n      \"amount\": {\r\n        \"value\": 500\r\n      },\r\n      \"expiration_date\": \"2025-02-01T20:15:59-03:00\"\r\n    }\r\n  ],\r\n  \"shipping\": {\r\n    \"address\": {\r\n      \"street\": \"Avenida Brigadeiro Faria Lima\",\r\n      \"number\": \"1384\",\r\n      \"complement\": \"apto 12\",\r\n      \"locality\": \"Pinheiros\",\r\n      \"city\": \"São Paulo\",\r\n      \"region_code\": \"SP\",\r\n      \"country\": \"BRA\",\r\n      \"postal_code\": \"01452002\"\r\n    }\r\n  },\r\n  \"notification_urls\": [\r\n    \"https://meusite.com/notificacoes\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://sandbox.api.pagseguro.com/orders",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"api",
+										"pagseguro",
+										"com"
+									],
+									"path": [
+										"orders"
+									]
+								},
+								"description": "Generated from cURL: curl --location --request POST 'https: //sandbox.api.pagseguro.com/orders' \\\r\n--data-raw '{\r\n  \"reference_id\": \"ex-00001\",\r\n  \"customer\": {\r\n    \"name\": \"Jose da Silva\",\r\n    \"email\": \"email@test.com\",\r\n    \"tax_id\": \"12345678909\",\r\n    \"phones\": [\r\n      {\r\n        \"country\": \"55\",\r\n        \"area\": \"11\",\r\n        \"number\": \"999999999\",\r\n        \"type\": \"MOBILE\"\r\n      }\r\n    ]\r\n  },\r\n  \"items\": [\r\n    {\r\n      \"name\": \"nome do item\",\r\n      \"quantity\": 1,\r\n      \"unit_amount\": 500\r\n    }\r\n  ],\r\n  \"qr_codes\": [\r\n    {\r\n      \"amount\": {\r\n        \"value\": 500\r\n      },\r\n      \"expiration_date\": \"2021-08-29T20:15:59-03:00\",\r\n    }\r\n  ],\r\n  \"shipping\": {\r\n    \"address\": {\r\n      \"street\": \"Avenida Brigadeiro Faria Lima\",\r\n      \"number\": \"1384\",\r\n      \"complement\": \"apto 12\",\r\n      \"locality\": \"Pinheiros\",\r\n      \"city\": \"São Paulo\",\r\n      \"region_code\": \"SP\",\r\n      \"country\": \"BRA\",\r\n      \"postal_code\": \"01452002\"\r\n    }\r\n  },\r\n  \"notification_urls\": [\r\n    \"https://meusite.com/notificacoes\"\r\n  ]\r\n}'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Checkout",
+					"item": [
+						{
+							"name": "Criar checkout com envio",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer 45c93bce-5213-4492-9864-6fa9e7ead52fb82f788241019b784bb89c3d38aee79ff3be-8bd7-41d5-9f95-cd965fa2ed56"
+									},
+									{
+										"key": "Content-type",
+										"value": "application/json"
+									},
+									{
+										"key": "accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\n{\n  \"reference_id\": \"REFERÊNCIA DO PRODUTO\",\n  \"expiration_date\": \"2025-02-01T19:09:10-03:00\",\n  \"customer\": {\n    \"name\": \"João teste\",\n    \"email\": \"joao@teste.com\",\n    \"tax_id\": \"12345678909\",\n    \"phone\": {\n      \"country\": \"+55\",\n      \"area\": \"27\",\n      \"number\": \"999999999\"\n    }\n  },\n  \"customer_modifiable\": true,\n  \"items\": [\n    {\n      \"reference_id\": \"ITEM01\",\n      \"name\": \"Nome do Produto\",\n      \"quantity\": 1,\n      \"unit_amount\": 500,\n      \"image_url\": \"https://www.petz.com.br/blog//wp-content/upload/2018/09/tamanho-de-cachorro-pet-1.jpg\"\n    }\n  ],\n  \"additional_amount\": 0,\n  \"discount_amount\": 0,\n  \"shipping\": {\n    \"type\": \"FREE\",\n    \"amount\": 0,\n    \"service_type\": \"PAC\",\n    \"address\": {\n      \"country\": \"BRA\",\n      \"region_code\": \"SP\",\n      \"city\": \"São Paulo\",\n      \"postal_code\": \"01452002\",\n      \"street\": \"Faria Lima\",\n      \"number\": \"1384\",\n      \"locality\": \"Pinheiros\",\n      \"complement\": \"5 andar\"\n    },\n    \"address_modifiable\": true,\n    \"box\": {\n      \"dimensions\": {\n        \"length\": 15,\n        \"width\": 10,\n        \"height\": 14\n      },\n      \"weight\": 300\n    }\n  },\n  \"payment_methods\": [\n    {\n      \"type\": \"credit_card\",\n      \"brands\": [\n        \"mastercard\"\n      ]\n    },\n    {\n      \"type\": \"credit_card\",\n      \"brands\": [\n        \"visa\"\n      ]\n    },\n    {\n      \"type\": \"debit_card\",\n      \"brands\": [\n        \"visa\"\n      ]\n    },\n    {\n      \"type\": \"PIX\"\n    },\n    {\n      \"type\": \"BOLETO\"\n    }\n  ],\n  \"payment_methods_configs\": [\n    {\n      \"type\": \"credit_card\",\n      \"config_options\": [\n        {\n          \"option\": \"installments_limit\",\n          \"value\": \"1\"\n        }\n      ]\n    }\n  ],\n  \"soft_descriptor\": \"xxxx\",\n  \"redirect_url\": \"https://pagseguro.uol.com.br\",\n  \"return_url\": \"https://pagseguro.uol.com.br\",\n  \"notification_urls\": [\n    \"https://pagseguro.uol.com.br\"\n  ]\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://sandbox.api.pagseguro.com/checkouts",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"api",
+										"pagseguro",
+										"com"
+									],
+									"path": [
+										"checkouts"
+									]
+								},
+								"description": "Generated from cURL: curl --request POST \\\n     --url https://sandbox.api.pagseguro.com/checkouts \\\n     --header 'Authorization: Bearer <token>' \\\n     --header 'Content-type: application/json' \\\n     --header 'accept: */*' \\\n     --data '\n{\n  \"reference_id\": \"REFERÊNCIA DO PRODUTO\",\n  \"expiration_date\": \"2023-08-14T19:09:10-03:00\",\n  \"customer\": {\n    \"name\": \"João teste\",\n    \"email\": \"joao@teste.com\",\n    \"tax_id\": \"12345678909\",\n    \"phone\": {\n      \"country\": \"+55\",\n      \"area\": \"27\",\n      \"number\": \"999999999\"\n    }\n  },\n  \"customer_modifiable\": true,\n  \"items\": [\n    {\n      \"reference_id\": \"ITEM01\",\n      \"name\": \"Nome do Produto\",\n      \"quantity\": 1,\n      \"unit_amount\": 500,\n      \"image_url\": \"https://www.petz.com.br/blog//wp-content/upload/2018/09/tamanho-de-cachorro-pet-1.jpg\"\n    }\n  ],\n  \"additional_amount\": 0,\n  \"discount_amount\": 0,\n  \"shipping\": {\n    \"type\": \"FREE\",\n    \"amount\": 0,\n    \"service_type\": \"PAC\",\n    \"address\": {\n      \"country\": \"BRA\",\n      \"region_code\": \"SP\",\n      \"city\": \"São Paulo\",\n      \"postal_code\": \"01452002\",\n      \"street\": \"Faria Lima\",\n      \"number\": \"1384\",\n      \"locality\": \"Pinheiros\",\n      \"complement\": \"5 andar\"\n    },\n    \"address_modifiable\": true,\n    \"box\": {\n      \"dimensions\": {\n        \"length\": 15,\n        \"width\": 10,\n        \"height\": 14\n      },\n      \"weight\": 300\n    }\n  },\n  \"payment_methods\": [\n    {\n      \"type\": \"credit_card\",\n      \"brands\": [\n        \"mastercard\"\n      ]\n    },\n    {\n      \"type\": \"credit_card\",\n      \"brands\": [\n        \"visa\"\n      ]\n    },\n    {\n      \"type\": \"debit_card\",\n      \"brands\": [\n        \"visa\"\n      ]\n    },\n    {\n      \"type\": \"PIX\"\n    },\n    {\n      \"type\": \"BOLETO\"\n    }\n  ],\n  \"payment_methods_configs\": [\n    {\n      \"type\": \"credit_card\",\n      \"config_options\": [\n        {\n          \"option\": \"installments_limit\",\n          \"value\": \"1\"\n        }\n      ]\n    }\n  ],\n  \"soft_descriptor\": \"xxxx\",\n  \"redirect_url\": \"https://pagseguro.uol.com.br\",\n  \"return_url\": \"https://pagseguro.uol.com.br\",\n  \"notification_urls\": [\n    \"https://pagseguro.uol.com.br\"\n  ]\n}\n'"
+							},
+							"response": []
+						},
+						{
+							"name": "Criar checkout sem envio",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer 45c93bce-5213-4492-9864-6fa9e7ead52fb82f788241019b784bb89c3d38aee79ff3be-8bd7-41d5-9f95-cd965fa2ed56"
+									},
+									{
+										"key": "Content-type",
+										"value": "application/json"
+									},
+									{
+										"key": "accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\n{\n  \"reference_id\": \"REFERÊNCIA DO PRODUTO\",\n  \"expiration_date\": \"2025-02-01T19:09:10-03:00\",\n  \"customer\": {\n    \"name\": \"João teste\",\n    \"email\": \"joao@teste.com\",\n    \"tax_id\": \"12345678909\",\n    \"phone\": {\n      \"country\": \"+55\",\n      \"area\": \"27\",\n      \"number\": \"999999999\"\n    }\n  },\n  \"customer_modifiable\": true,\n  \"items\": [\n    {\n      \"reference_id\": \"FONTE_CONF_MULHERES\",\n      \"name\": \"Conferência de Mulheres\",\n      \"quantity\": 1,\n      \"unit_amount\": 5700,\n      \"image_url\": \"https://www.petz.com.br/blog//wp-content/upload/2018/09/tamanho-de-cachorro-pet-1.jpg\"\n    }\n  ],\n  \"additional_amount\": 0,\n  \"discount_amount\": 0,\n  \"payment_methods\": [\n    {\n      \"type\": \"credit_card\",\n      \"brands\": [\n        \"mastercard\"\n      ]\n    },\n    {\n      \"type\": \"credit_card\",\n      \"brands\": [\n        \"visa\"\n      ]\n    },\n    {\n      \"type\": \"debit_card\",\n      \"brands\": [\n        \"visa\"\n      ]\n    },\n    {\n      \"type\": \"PIX\"\n    }\n    // {\n    //   \"type\": \"BOLETO\"\n    // }\n  ],\n  \"payment_methods_configs\": [\n    {\n      \"type\": \"credit_card\",\n      \"config_options\": [\n        {\n          \"option\": \"installments_limit\",\n          \"value\": \"2\"\n        }\n      ]\n    }\n  ],\n  \"soft_descriptor\": \"xxxx\",\n  \"redirect_url\": \"https://pagseguro.uol.com.br\",\n  \"return_url\": \"https://pagseguro.uol.com.br\",\n  \"notification_urls\": [\n    \"https://pagseguro.uol.com.br\"\n  ]\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://sandbox.api.pagseguro.com/checkouts",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"api",
+										"pagseguro",
+										"com"
+									],
+									"path": [
+										"checkouts"
+									]
+								},
+								"description": "Generated from cURL: curl --request POST \\\n     --url https://sandbox.api.pagseguro.com/checkouts \\\n     --header 'Authorization: Bearer <token>' \\\n     --header 'Content-type: application/json' \\\n     --header 'accept: */*' \\\n     --data '\n{\n  \"reference_id\": \"REFERÊNCIA DO PRODUTO\",\n  \"expiration_date\": \"2023-08-14T19:09:10-03:00\",\n  \"customer\": {\n    \"name\": \"João teste\",\n    \"email\": \"joao@teste.com\",\n    \"tax_id\": \"12345678909\",\n    \"phone\": {\n      \"country\": \"+55\",\n      \"area\": \"27\",\n      \"number\": \"999999999\"\n    }\n  },\n  \"customer_modifiable\": true,\n  \"items\": [\n    {\n      \"reference_id\": \"ITEM01\",\n      \"name\": \"Nome do Produto\",\n      \"quantity\": 1,\n      \"unit_amount\": 500,\n      \"image_url\": \"https://www.petz.com.br/blog//wp-content/upload/2018/09/tamanho-de-cachorro-pet-1.jpg\"\n    }\n  ],\n  \"additional_amount\": 0,\n  \"discount_amount\": 0,\n  \"shipping\": {\n    \"type\": \"FREE\",\n    \"amount\": 0,\n    \"service_type\": \"PAC\",\n    \"address\": {\n      \"country\": \"BRA\",\n      \"region_code\": \"SP\",\n      \"city\": \"São Paulo\",\n      \"postal_code\": \"01452002\",\n      \"street\": \"Faria Lima\",\n      \"number\": \"1384\",\n      \"locality\": \"Pinheiros\",\n      \"complement\": \"5 andar\"\n    },\n    \"address_modifiable\": true,\n    \"box\": {\n      \"dimensions\": {\n        \"length\": 15,\n        \"width\": 10,\n        \"height\": 14\n      },\n      \"weight\": 300\n    }\n  },\n  \"payment_methods\": [\n    {\n      \"type\": \"credit_card\",\n      \"brands\": [\n        \"mastercard\"\n      ]\n    },\n    {\n      \"type\": \"credit_card\",\n      \"brands\": [\n        \"visa\"\n      ]\n    },\n    {\n      \"type\": \"debit_card\",\n      \"brands\": [\n        \"visa\"\n      ]\n    },\n    {\n      \"type\": \"PIX\"\n    },\n    {\n      \"type\": \"BOLETO\"\n    }\n  ],\n  \"payment_methods_configs\": [\n    {\n      \"type\": \"credit_card\",\n      \"config_options\": [\n        {\n          \"option\": \"installments_limit\",\n          \"value\": \"1\"\n        }\n      ]\n    }\n  ],\n  \"soft_descriptor\": \"xxxx\",\n  \"redirect_url\": \"https://pagseguro.uol.com.br\",\n  \"return_url\": \"https://pagseguro.uol.com.br\",\n  \"notification_urls\": [\n    \"https://pagseguro.uol.com.br\"\n  ]\n}\n'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Boleto",
+					"item": [
+						{
+							"name": "Criar pedido Boleto",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "45c93bce-5213-4492-9864-6fa9e7ead52fb82f788241019b784bb89c3d38aee79ff3be-8bd7-41d5-9f95-cd965fa2ed56",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"reference_id\": \"ex-00001\",\r\n  \"customer\": {\r\n    \"name\": \"Jose da Silva\",\r\n    \"email\": \"email@test.com\",\r\n    \"tax_id\": \"12345678909\",\r\n    \"phones\": [\r\n      {\r\n        \"country\": \"55\",\r\n        \"area\": \"11\",\r\n        \"number\": \"999999999\",\r\n        \"type\": \"MOBILE\"\r\n      }\r\n    ]\r\n  },\r\n  \"items\": [\r\n    {\r\n      \"reference_id\": \"referencia do item\",\r\n      \"name\": \"nome do item\",\r\n      \"quantity\": 1,\r\n      \"unit_amount\": 500\r\n    }\r\n  ],\r\n  \"shipping\": {\r\n    \"address\": {\r\n      \"street\": \"Avenida Brigadeiro Faria Lima\",\r\n      \"number\": \"1384\",\r\n      \"complement\": \"apto 12\",\r\n      \"locality\": \"Pinheiros\",\r\n      \"city\": \"São Paulo\",\r\n      \"region_code\": \"SP\",\r\n      \"country\": \"BRA\",\r\n      \"postal_code\": \"01452002\"\r\n    }\r\n  },\r\n  \"notification_urls\": [\r\n    \"https://meusite.com/notificacoes\"\r\n  ],\r\n  \"charges\": [\r\n    {\r\n      \"reference_id\": \"referencia da cobranca\",\r\n      \"description\": \"descricao da cobranca\",\r\n      \"amount\": {\r\n        \"value\": 500,\r\n        \"currency\": \"BRL\"\r\n      },\r\n      \"payment_method\": {\r\n        \"type\": \"BOLETO\",\r\n        \"boleto\": {\r\n          \"due_date\": \"2025-01-31\",\r\n          \"instruction_lines\": {\r\n            \"line_1\": \"Pagamento processado para DESC Fatura\",\r\n            \"line_2\": \"Via PagSeguro\"\r\n          },\r\n          \"holder\": {\r\n            \"name\": \"Jose da Silva\",\r\n            \"tax_id\": \"12345679891\",\r\n            \"email\": \"jose@email.com\",\r\n            \"address\": {\r\n              \"country\": \"Brasil\",\r\n              \"region\": \"São Paulo\",\r\n              \"region_code\": \"SP\",\r\n              \"city\": \"Sao Paulo\",\r\n              \"postal_code\": \"01452002\",\r\n              \"street\": \"Avenida Brigadeiro Faria Lima\",\r\n              \"number\": \"1384\",\r\n              \"locality\": \"Pinheiros\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://sandbox.api.pagseguro.com/orders",
+									"protocol": "https",
+									"host": [
+										"sandbox",
+										"api",
+										"pagseguro",
+										"com"
+									],
+									"path": [
+										"orders"
+									]
+								},
+								"description": "Generated from cURL: curl --location --request POST 'https: //sandbox.api.pagseguro.com/orders' \\\r\n--data-raw '{\r\n  \"reference_id\": \"ex-00001\",\r\n  \"customer\": {\r\n    \"name\": \"Jose da Silva\",\r\n    \"email\": \"email@test.com\",\r\n    \"tax_id\": \"12345678909\",\r\n    \"phones\": [\r\n      {\r\n        \"country\": \"55\",\r\n        \"area\": \"11\",\r\n        \"number\": \"999999999\",\r\n        \"type\": \"MOBILE\"\r\n      }\r\n    ]\r\n  },\r\n  \"items\": [\r\n    {\r\n      \"name\": \"nome do item\",\r\n      \"quantity\": 1,\r\n      \"unit_amount\": 500\r\n    }\r\n  ],\r\n  \"qr_codes\": [\r\n    {\r\n      \"amount\": {\r\n        \"value\": 500\r\n      },\r\n      \"expiration_date\": \"2021-08-29T20:15:59-03:00\",\r\n    }\r\n  ],\r\n  \"shipping\": {\r\n    \"address\": {\r\n      \"street\": \"Avenida Brigadeiro Faria Lima\",\r\n      \"number\": \"1384\",\r\n      \"complement\": \"apto 12\",\r\n      \"locality\": \"Pinheiros\",\r\n      \"city\": \"São Paulo\",\r\n      \"region_code\": \"SP\",\r\n      \"country\": \"BRA\",\r\n      \"postal_code\": \"01452002\"\r\n    }\r\n  },\r\n  \"notification_urls\": [\r\n    \"https://meusite.com/notificacoes\"\r\n  ]\r\n}'"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
