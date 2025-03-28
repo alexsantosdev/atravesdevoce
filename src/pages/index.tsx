@@ -25,7 +25,7 @@ export default function Home() {
               <h2>Deus quer fazer algo <b>através de você!</b></h2>
               <p>
                 Em um tempo de oração, Deus me direcionou a reunir mulheres para serem curadas, libertas e restauradas, para então transformarem outras vidas. 
-                E assim nasceu o <b>Através de Você</b> – um movimento que já impacta mulheres ao redor do Brasil!
+                E assim nasceu o <b>Através de Você</b> – um movimento que vem impactando mulheres!
               </p>
               <button>
                 <span>eu quero fazer parte!</span>
@@ -38,7 +38,7 @@ export default function Home() {
         </div>
 
         <div className={styles.mainContent}>
-          <h2>Você está pronta para a transformação?</h2>
+          <h2>Você está pronta?</h2>
           <span>Prepare-se para um tempo inesquecível de conexão, restauração e manifestação do poder de Deus.</span>
 
           <div className={styles.grid}>
@@ -46,28 +46,28 @@ export default function Home() {
               <img src='/images/g1.jpg' alt='g1 image' />
               <div className={styles.content}>
                 <span>nai lopes</span>
-                <h2>22 às 19H30m</h2>
-              </div>
-            </div>
-            <div className={styles.card}>
-              <img src='/images/g4.jpg' alt='g1 image' />
-              <div className={styles.content}>
-                <span>pra rafaela marques</span>
-                <h2>22 às 20H30m</h2>
-              </div>
-            </div>
-            <div className={styles.card}>
-              <img src='/images/g3.jpg' alt='g1 image' />
-              <div className={styles.content}>
-                <span>pra bianca franco</span>
-                <h2>23 às 15H00m</h2>
+                <h2>23 às 19H30m</h2>
               </div>
             </div>
             <div className={styles.card}>
               <img src='/images/g2.jpg' alt='g1 image' />
               <div className={styles.content}>
                 <span>pra thamires ponciano</span>
-                <h2>23 às 16H00m</h2>
+                <h2>23 às 20H30m</h2>
+              </div>
+            </div>
+            <div className={styles.card}>
+              <img src='/images/g4.jpg' alt='g1 image' />
+              <div className={styles.content}>
+                <span>pra rafaela marques</span>
+                <h2>24 às 16H30m</h2>
+              </div>
+            </div>
+            <div className={styles.card}>
+              <img src='/images/g3.jpg' alt='g1 image' />
+              <div className={styles.content}>
+                <span>pra bianca franco</span>
+                <h2>24 às 19H00m</h2>
               </div>
             </div>
           </div>
@@ -75,8 +75,8 @@ export default function Home() {
 
         <div className={styles.bg}>
           <div className={styles.fullBackground}>
-            <h2>🔥 Um final de semana que mudará a sua vida!</h2>
-            <span>Nos dias <b>22 e 23 de maio</b>, prepare-se para um tempo inesquecível de conexão, restauração e manifestação do poder de Deus.</span>
+            <h2>🔥 Uma conferência que mudará a sua vida!</h2>
+            <span>Nos dias <b>23 e 24 de maio</b>, prepare-se para um tempo inesquecível de conexão, restauração e manifestação do poder de Deus.</span>
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export default function Home() {
             <div className={styles.column}>
               <div className={styles.columnContent}>
                 <h3>Conexão</h3>
-                <h2>Palavra e <br /> ministração</h2>
+                <h2>Palavras de <br /> destino</h2>
                 <p>
                   Jesus disse: "<em>siga-me e o farei pescador de homens</em>", uma chamada de Jesus específica deixa-me salvar através de você."
                 </p>
@@ -103,7 +103,7 @@ export default function Home() {
             <div className={styles.column}>
               <div className={styles.columnContent}>
                 <h3>Intensidade</h3>
-                <h2>Adorações intensas</h2>
+                <h2>Clamor e adroação</h2>
                 <p>
                   Não importa em qual nível você esteja, talvez você só precise ser cuidada e amada. Nós cremos que através de você, sinais e maravilhas serão manifestos.
                 </p>
@@ -118,7 +118,7 @@ export default function Home() {
             <img src='/images/figure.png' alt='Pra. Thamires Ponciano' />
             <div className={styles.aboutContent}>
               <span>Sobre o evento</span>
-              <h2>Através de Você</h2>
+              <h2>O projeto</h2>
               <p>
                 O através de você é um projeto totalmente voltado a mulheres, um projeto onde mulheres são curadas para curar, libertas para libertar, restauradas para restaurar, primeiro em mim depois através de mim.
               </p>
@@ -133,7 +133,7 @@ export default function Home() {
         <div className={styles.ctaAndFooter}>
           <div className={styles.ctaSection}>
             <div className={styles.content}>
-              <h4>Você não vai perder né?</h4>
+              <h4>Você não vai perder, né?</h4>
               <h2>Reserve sua vaga agora mesmo e se prepare para viver o <b>sobrenatural de Deus!</b></h2>
               <span>Rua Catiguá, 130 - Portal dos Ipês, Cajamar</span>
               <p>Nossa estrutura conta com estacionamento e lanchonete.</p>
