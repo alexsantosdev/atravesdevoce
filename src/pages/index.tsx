@@ -154,15 +154,15 @@ export default function Home() {
               <div className={styles.items}>
                 <div className={styles.item}>
                   <img src='/images/marker.svg' alt='marker' />
-                  <span>Dias 22 e 23 de Maio</span>
+                  <span>Dias 23 e 24 de Maio</span>
                 </div>
                 <div className={styles.item}>
                   <img src='/images/marker.svg' alt='marker' />
-                  <span>22 de maio - Início às 19h30</span>
+                  <span>23 de maio - Início às 19h30</span>
                 </div>
                 <div className={styles.item}>
                   <img src='/images/marker.svg' alt='marker' />
-                  <span>23 de maio - Retorno às 15h</span>
+                  <span>24 de maio - Retorno às 15h</span>
                 </div>
               </div>
 
