@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getCheckout, updateInvite, updateCheckoutStatus, updateInviteByCheckoutId } from '@/services/database';
 import { mapPagBankStatusToTransactionStatus, mapPagBankPaymentMethod } from '@/services/payment';
 
-const PAGBANK_API_URL = 'https://api.pagseguro.com/';
+const PAGBANK_API_URL = 'https://api.pagseguro.com';
 const PAGBANK_TOKEN = process.env.PAGBANK_TOKEN;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
