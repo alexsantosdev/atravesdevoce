@@ -1,6 +1,6 @@
 import { PagBankCheckout, PagBankOrder, PaymentMethod, PaymentStatus } from '@/types/database'
 
-const PAGBANK_API_URL = 'https://sandbox.api.pagseguro.com'
+const PAGBANK_API_URL = 'https://api.pagseguro.com/'
 const PAGBANK_TOKEN = process.env.NEXT_PUBLIC_PAGBANK_TOKEN
 
 export async function createCheckout(data: {
