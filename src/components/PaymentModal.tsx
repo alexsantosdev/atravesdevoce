@@ -49,6 +49,26 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     setFormData({ ...formData, cpf: formattedCPF });
   };
 
+  // Format phone number as user types ((XX) XXXXX-XXXX)
+  const formatPhone = (value: string) => {
+    // Remove all non-digits
+    const digits = value.replace(/\D/g, '');
+    
+    // Apply formatting
+    if (digits.length <= 2) {
+      return digits;
+    } else if (digits.length <= 7) {
+      return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+    } else {
+      return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7, 11)}`;
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedPhone = formatPhone(e.target.value);
+    setFormData({ ...formData, phone: formattedPhone });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -57,12 +77,15 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
       // Clean CPF before creating invite
       const cleanCpf = formData.cpf.replace(/\D/g, '');
 
+      // Clean phone number before creating invite
+      const cleanPhone = formData.phone.replace(/\D/g, '');
+
       // Create invite first
       const inviteData: CreateInviteData = {
         name: formData.name,
         cpf: cleanCpf,
         email: formData.email,
-        phone: formData.phone,
+        phone: cleanPhone,
         age: parseInt(formData.age),
         status: 'PENDING',
       };
@@ -79,7 +102,7 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
           name: formData.name,
           cpf: cleanCpf,
           email: formData.email,
-          phone: formData.phone,
+          phone: cleanPhone,
           age: parseInt(formData.age),
           inviteId: cleanCpf,
         }),
@@ -157,7 +180,9 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
               type="tel"
               id="phone"
               value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={handlePhoneChange}
+              placeholder="(00) 00000-0000"
+              maxLength={15}
               required
             />
           </div>
