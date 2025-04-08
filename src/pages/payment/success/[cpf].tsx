@@ -16,7 +16,7 @@ export default function PaymentSuccess() {
   const { cpf } = router.query
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
   const [message, setMessage] = useState('Verificando seu pagamento...')
-  const [success, setSuccess] = useState<boolean>(true)
+  const [success, setSuccess] = useState<boolean>(false)
   const [inviteInfo, setInviteInfo] = useState<Invite | null>(null)
 
   useEffect(() => {
