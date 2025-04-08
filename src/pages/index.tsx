@@ -133,6 +133,10 @@ export default function Home() {
           </div>
         </div>
 
+        <div className={styles.conference}>
+          <img src='/images/conference.jpg' alt='conference image' />
+        </div>
+
         <div className={styles.ctaAndFooter}>
           <div className={styles.ctaSection}>
             <div className={styles.content}>
