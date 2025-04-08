@@ -59,6 +59,10 @@ export default function MeuIngresso() {
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+
+    if(cpf?.trim() === '') {
+      return
+    }
     
     try {
       await checkStatus()
