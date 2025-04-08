@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import { getInviteByCpf } from '@/services/database';
-import styles from '@/styles/Payment.module.scss';
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import Head from 'next/head'
+
+import { getInviteByCpf } from '@/services/database'
+
+import styles from '@/styles/Payment.module.scss'
 
 export default function PaymentSuccess() {
-  const router = useRouter();
-  const { cpf } = router.query;
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
-  const [message, setMessage] = useState('Verificando seu pagamento...');
+  const router = useRouter()
+  const { cpf } = router.query
+  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
+  const [message, setMessage] = useState('Verificando seu pagamento...')
 
   useEffect(() => {
     async function checkStatus() {

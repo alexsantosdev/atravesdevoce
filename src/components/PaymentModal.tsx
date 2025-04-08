@@ -27,6 +27,28 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     age: '',
   });
 
+  // Format CPF as user types (XXX.XXX.XXX-XX)
+  const formatCPF = (value: string) => {
+    // Remove all non-digits
+    const digits = value.replace(/\D/g, '');
+    
+    // Apply formatting
+    if (digits.length <= 3) {
+      return digits;
+    } else if (digits.length <= 6) {
+      return `${digits.slice(0, 3)}.${digits.slice(3)}`;
+    } else if (digits.length <= 9) {
+      return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6)}`;
+    } else {
+      return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9, 11)}`;
+    }
+  };
+
+  const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedCPF = formatCPF(e.target.value);
+    setFormData({ ...formData, cpf: formattedCPF });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -111,7 +133,9 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
               type="text"
               id="cpf"
               value={formData.cpf}
-              onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
+              onChange={handleCPFChange}
+              placeholder="000.000.000-00"
+              maxLength={14}
               required
             />
           </div>

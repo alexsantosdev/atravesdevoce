@@ -2,8 +2,10 @@ import { useState } from 'react'
 import Head from 'next/head'
 import { Toaster } from 'sonner'
 
+import Header from '@/components/Header'
+import PaymentModal from '@/components/PaymentModal'
+
 import styles from '@/styles/Home.module.scss'
-import PaymentModal from '../components/PaymentModal'
 
 export default function Home() {
   const [showPaymentModal, setShowPaymentModal] = useState(false)
@@ -16,6 +18,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Header />
       <Toaster position='bottom-center' />
       <main className={styles.mainContainer}>
         <div className={styles.mainHeader}>
@@ -27,7 +30,7 @@ export default function Home() {
                 Em um tempo de oração, Deus me direcionou a reunir mulheres para serem curadas, libertas e restauradas, para então transformarem outras vidas. 
                 E assim nasceu o <b>Através de Você</b> – um movimento que vem impactando mulheres!
               </p>
-              <button>
+              <button onClick={() => setShowPaymentModal(true)}>
                 <span>eu quero fazer parte!</span>
               </button>
             </div>
@@ -103,7 +106,7 @@ export default function Home() {
             <div className={styles.column}>
               <div className={styles.columnContent}>
                 <h3>Intensidade</h3>
-                <h2>Clamor e adroação</h2>
+                <h2>Clamor e adoração</h2>
                 <p>
                   Não importa em qual nível você esteja, talvez você só precise ser cuidada e amada. Nós cremos que através de você, sinais e maravilhas serão manifestos.
                 </p>
