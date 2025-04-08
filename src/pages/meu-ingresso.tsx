@@ -106,7 +106,7 @@ export default function MeuIngresso() {
               maxLength={14}
               disabled={loading}
             />
-            <button type="submit" disabled={loading}>
+            <button type="submit" disabled={loading || cpf.trim() === ''}>
               {loading ? 'Buscando...' : 'Buscar'}
             </button>
           </form>
