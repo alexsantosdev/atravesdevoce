@@ -137,3 +137,25 @@
     text-align: center;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .content {
+    form {
+      flex-direction: column;
+      button {
+        width: 100%;
+      }
+    }
+  } 
+}
+
+@media screen and (max-width: 767px) {
+  .content {
+    form {
+      flex-direction: column;
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
