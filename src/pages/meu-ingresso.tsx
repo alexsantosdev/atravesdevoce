@@ -131,7 +131,7 @@ export default function MeuIngresso() {
         <div className={styles.ticket}>
           <img src='/images/camera.svg' alt='camera icon' />
           <span>Tire print do seu ingresso e comparilhe em suas redes, marcando o <b>@atravesdevoce__</b></span>
-          {inviteInfo && (
+          {(inviteInfo && inviteInfo.status === 'CONFIRMED') && (
             <Ticket name={inviteInfo?.name} />
           )}
         </div>
