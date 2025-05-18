@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         {
           type: 'DEBIT_CARD',
-          brands: ['VISA'],
+          brands: ['MASTERCARD', 'VISA'],
         },
         {
           type: 'PIX',
