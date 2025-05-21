@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           reference_id: 'CONF_MULHERES',
           name: 'Conferência de Mulheres',
           quantity: 1,
-          unit_amount: 5700, // R$ 57,00
+          unit_amount: 7800, // R$ 57,00
         },
       ],
       payment_methods: [
