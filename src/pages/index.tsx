@@ -153,9 +153,9 @@ export default function Home() {
               <div className={styles.priceSection}>
                 <div className={styles.price}>
                   <h4>R$</h4>
-                  <h2>57,00</h2>
+                  <h2>78,00</h2>
                 </div>
-                <span>Ou em até <b>3x de R$ 20,34 reais</b> no cartão de crédito</span>
+                <span>Segundo lote, pague com pix ou parcelado no cartão.</span>
               </div>
 
               <div className={styles.items}>
