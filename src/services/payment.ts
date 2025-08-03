@@ -9,6 +9,11 @@ export async function createCheckout(data: {
   email: string
   phone: string
   age: number
+  birthDate: string
+  church: 'FONTE' | 'OUTROS'
+  churchOther?: string
+  shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2'
+  emergencyContact: string
   inviteId: string
 }) {
   try {
@@ -34,10 +39,10 @@ export async function createCheckout(data: {
         },
         items: [
           {
-            reference_id: 'CONF_MULHERES',
-            name: 'Conferência de Mulheres',
+            reference_id: 'ATRAVES_2025',
+            name: 'Encontro através de você',
             quantity: 1,
-            unit_amount: 5700,
+            unit_amount: 36700,
           },
         ],
         payment_methods: [

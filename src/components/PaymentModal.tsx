@@ -14,6 +14,11 @@ interface CreateInviteData {
   email: string;
   phone: string;
   age: number;
+  birthDate: string;
+  church: 'FONTE' | 'OUTROS';
+  churchOther?: string;
+  shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2';
+  emergencyContact: string;
   status: InviteStatus;
 }
 
@@ -25,6 +30,11 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     email: '',
     phone: '',
     age: '',
+    birthDate: '',
+    church: 'FONTE' as 'FONTE' | 'OUTROS',
+    churchOther: '',
+    shirtSize: 'P' as 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2',
+    emergencyContact: '',
   });
 
   // Format CPF as user types (XXX.XXX.XXX-XX)
@@ -69,16 +79,40 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     setFormData({ ...formData, phone: formattedPhone });
   };
 
+  const handleEmergencyContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedPhone = formatPhone(e.target.value);
+    setFormData({ ...formData, emergencyContact: formattedPhone });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
+      // Validate required fields
+      if (!formData.name || !formData.cpf || !formData.email || !formData.phone || 
+          !formData.age || !formData.birthDate || !formData.church || 
+          !formData.shirtSize || !formData.emergencyContact) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        setLoading(false);
+        return;
+      }
+
+      // Validate church other field
+      if (formData.church === 'OUTROS' && !formData.churchOther) {
+        alert('Por favor, especifique qual igreja você frequenta.');
+        setLoading(false);
+        return;
+      }
+
       // Clean CPF before creating invite
       const cleanCpf = formData.cpf.replace(/\D/g, '');
 
       // Clean phone number before creating invite
       const cleanPhone = formData.phone.replace(/\D/g, '');
+
+      // Clean emergency contact
+      const cleanEmergencyContact = formData.emergencyContact.replace(/\D/g, '');
 
       // Create invite first
       const inviteData: CreateInviteData = {
@@ -87,10 +121,19 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
         email: formData.email,
         phone: cleanPhone,
         age: parseInt(formData.age),
+        birthDate: formData.birthDate,
+        church: formData.church,
+        churchOther: formData.churchOther,
+        shirtSize: formData.shirtSize,
+        emergencyContact: cleanEmergencyContact,
         status: 'PENDING',
       };
 
+      console.log('Creating invite with data:', inviteData);
+
       await createInvite(inviteData);
+
+      console.log('Invite created successfully, creating checkout...');
 
       // Create checkout through API route
       const response = await fetch('/api/payment/create-checkout', {
@@ -104,15 +147,23 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
           email: formData.email,
           phone: cleanPhone,
           age: parseInt(formData.age),
+          birthDate: formData.birthDate,
+          church: formData.church,
+          churchOther: formData.churchOther,
+          shirtSize: formData.shirtSize,
+          emergencyContact: cleanEmergencyContact,
           inviteId: cleanCpf,
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create checkout');
+        const errorData = await response.json();
+        console.error('API Error:', errorData);
+        throw new Error(errorData.details || 'Failed to create checkout');
       }
 
       const checkout = await response.json();
+      console.log('Checkout created:', checkout);
 
       // Get payment link and redirect
       const paymentLink = checkout.payment_url;
@@ -123,7 +174,7 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
       }
     } catch (error) {
       console.error('Error creating payment:', error);
-      alert('Erro ao criar pagamento. Por favor, tente novamente.');
+      alert(`Erro ao criar pagamento: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
     } finally {
       setLoading(false);
     }
@@ -194,6 +245,86 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
               id="age"
               value={formData.age}
               onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="birthDate">Data de Nascimento</label>
+            <input
+              type="date"
+              id="birthDate"
+              value={formData.birthDate}
+              onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>De qual igreja você faz parte?</label>
+            <div className={styles.checkboxGroup}>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="church"
+                  value="FONTE"
+                  checked={formData.church === 'FONTE'}
+                  onChange={(e) => setFormData({ ...formData, church: e.target.value as 'FONTE' | 'OUTROS' })}
+                />
+                Fonte
+              </label>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="church"
+                  value="OUTROS"
+                  checked={formData.church === 'OUTROS'}
+                  onChange={(e) => setFormData({ ...formData, church: e.target.value as 'FONTE' | 'OUTROS' })}
+                />
+                Outros
+              </label>
+            </div>
+          </div>
+
+          {formData.church === 'OUTROS' && (
+            <div className={styles.formGroup}>
+              <label htmlFor="churchOther">Qual igreja?</label>
+              <input
+                type="text"
+                id="churchOther"
+                value={formData.churchOther}
+                onChange={(e) => setFormData({ ...formData, churchOther: e.target.value })}
+                required={formData.church === 'OUTROS'}
+              />
+            </div>
+          )}
+
+          <div className={styles.formGroup}>
+            <label htmlFor="shirtSize">Numeração da Camiseta</label>
+            <select
+              id="shirtSize"
+              value={formData.shirtSize}
+              onChange={(e) => setFormData({ ...formData, shirtSize: e.target.value as 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2' })}
+              required
+            >
+              <option value="P">P</option>
+              <option value="M">M</option>
+              <option value="G">G</option>
+              <option value="GG">GG</option>
+              <option value="G1">G1</option>
+              <option value="G2">G2</option>
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="emergencyContact">Contato de Emergência</label>
+            <input
+              type="tel"
+              id="emergencyContact"
+              value={formData.emergencyContact}
+              onChange={handleEmergencyContactChange}
+              placeholder="(00) 00000-0000"
+              maxLength={15}
               required
             />
           </div>

@@ -4,10 +4,12 @@ import { Toaster } from 'sonner'
 
 import Header from '@/components/Header'
 import PaymentModal from '@/components/PaymentModal'
+import EventDetail from '@/components/EventDetail'
 
 import styles from '@/styles/Home.module.scss'
 
 export default function Home() {
+  const [showEventDetail, setShowEventDetail] = useState(false)
   const [showPaymentModal, setShowPaymentModal] = useState(false)
 
   return (
@@ -21,6 +23,28 @@ export default function Home() {
       <Header />
       <Toaster position='bottom-center' />
       <main className={styles.mainContainer}>
+        <div className={styles.headerBackground}>
+          <div className={styles.container}>
+            <h2>encontro através de você</h2>
+            <h3>dias 17, 18 e 19 de outubro</h3>
+            <button onClick={() => setShowEventDetail(true)}>inscreva-se</button>
+          </div>
+        </div>
+        <div className={styles.backgroundImage} />
+        <div className={styles.eventInfo}>
+          <div className={styles.eventInfoImageContainer}>
+            <img src='https://static.wixstatic.com/media/62f1e7_7764c76574b34f19885e0a2439005e0a~mv2.jpg/v1/fill/w_280,h_351,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/17935388868018537.jpg' alt="" />
+          </div>
+          <h2>Encontro <span>Através de você</span></h2>
+          <span>
+            serão três dias intensos em um sítio, separadas exclusivamente para ouvirmos a voz de Deus e sermos ativadas no nosso propósito. <br />
+            Essa imersão é mais do que um retiro — é um chamado. Cremos que o evangelho não pode parar em nós… Ele precisa fluir através de nós. 
+          </span>
+          <button onClick={() => setShowEventDetail(true)}>inscreva-se</button>
+        </div>
+        <EventDetail isOpen={showEventDetail} onClose={() => setShowEventDetail(false)} />
+      </main>
+      {/* <main className={styles.mainContainer}>
         <div className={styles.mainHeader}>
           <div className={styles.side}>
             <div className={styles.content}>
@@ -193,7 +217,7 @@ export default function Home() {
           isOpen={showPaymentModal} 
           onClose={() => setShowPaymentModal(false)} 
         />
-      </main>
+      </main> */}
     </>
   )
 }

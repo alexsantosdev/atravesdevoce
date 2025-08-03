@@ -13,6 +13,11 @@ export interface Invite {
   email: string
   phone: string
   age: number
+  birthDate: string
+  church: 'FONTE' | 'OUTROS'
+  churchOther?: string
+  shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2'
+  emergencyContact: string
   status: InviteStatus
   checkoutId?: string
   createdAt?: string

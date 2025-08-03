@@ -11,15 +11,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { name, cpf, email, phone, age, inviteId } = req.body;
+    const { name, cpf, email, phone, age, birthDate, church, churchOther, shirtSize, emergencyContact, inviteId } = req.body;
+
+    // Validate required fields
+    if (!name || !cpf || !email || !phone || !age || !birthDate || !church || !shirtSize || !emergencyContact) {
+      return res.status(400).json({ 
+        error: 'Missing required fields',
+        details: 'All fields are required'
+      });
+    }
+
+    // Validate church other field
+    if (church === 'OUTROS' && !churchOther) {
+      return res.status(400).json({ 
+        error: 'Missing church other field',
+        details: 'Church other field is required when church is OUTROS'
+      });
+    }
 
     // Format phone number and clean CPF
     const cleanPhone = phone.replace(/\D/g, '');
     const cleanCpf = cpf.replace(/\D/g, '');
+    
+    if (cleanPhone.length < 10) {
+      return res.status(400).json({ 
+        error: 'Invalid phone number',
+        details: 'Phone number must have at least 10 digits'
+      });
+    }
+
     const area = cleanPhone.substring(0, 2);
     const number = cleanPhone.substring(2);
 
-    console.log('NUMBER >>>>>>>>>>>>>>>>>', number)
+    console.log('Creating checkout for:', { name, email, cleanCpf, area, number });
 
     // Create payload for PagBank
     const payload = {
@@ -36,10 +60,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
       items: [
         {
-          reference_id: 'CONF_MULHERES',
-          name: 'Conferência de Mulheres',
+          reference_id: 'ATRAVES_2025',
+          name: 'Encontro através de você',
           quantity: 1,
-          unit_amount: 7800, // R$ 57,00
+          unit_amount: 36700, // R$ 367,00
         },
       ],
       payment_methods: [
@@ -73,6 +97,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     console.log('Sending request to PagBank with payload:', JSON.stringify(payload, null, 2));
 
+    if (!PAGBANK_TOKEN) {
+      throw new Error('PAGBANK_TOKEN environment variable is not set');
+    }
+
     const response = await fetch(`${PAGBANK_API_URL}/checkouts`, {
       method: 'POST',
       headers: {
@@ -83,14 +111,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create checkout');
+      const errorText = await response.text();
+      console.error('PagBank API Error:', response.status, errorText);
+      throw new Error(`PagBank API Error: ${response.status} - ${errorText}`);
     }
 
     const checkout = await response.json();
+    console.log('PagBank response:', JSON.stringify(checkout, null, 2));
 
     // Find payment URL from links
     const paymentLink = checkout.links?.find((link: any) => link.rel === 'PAY')?.href;
     if (!paymentLink) {
+      console.error('Payment URL not found in checkout response:', checkout);
       throw new Error('Payment URL not found in checkout response');
     }
 
@@ -98,7 +130,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await createCheckoutInDb({
       id: checkout.id,
       inviteId: cleanCpf,
-      amount: 5700,
+      amount: 36700, // Keep consistent with unit_amount
       status: 'PENDING' as PaymentStatus,
       paymentLink,
       createdAt: new Date().toISOString(),

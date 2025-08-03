@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
+import * as XLSX from 'xlsx'
 
 import ProtectedRoute from '@/components/ProtectedRoute'
 
@@ -101,6 +102,61 @@ export default function Dashboard() {
     }
   }
 
+  const getChurchLabel = (church?: string, churchOther?: string) => {
+    if (church === 'FONTE') return 'Fonte'
+    if (church === 'OUTROS' && churchOther) return churchOther
+    return church || '-'
+  }
+
+  const getShirtSizeLabel = (size?: string) => {
+    return size || '-'
+  }
+
+  const exportToExcel = () => {
+    // Prepare data for each sheet
+    const allParticipants = invites.map(invite => {
+      const participantCheckouts = checkouts.filter(c => c.inviteId === invite.id)
+      const lastSuccessfulCheckout = participantCheckouts
+        .filter(c => c.status === 'PAID')
+        .sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime())[0]
+
+      return {
+        'Nome': invite.name,
+        'CPF': invite.cpf,
+        'Email': invite.email,
+        'Telefone': invite.phone,
+        'Idade': invite.age,
+        'Data de Nascimento': formatDate(invite.birthDate),
+        'Igreja': getChurchLabel(invite.church, invite.churchOther),
+        'Tamanho da Camiseta': getShirtSizeLabel(invite.shirtSize),
+        'Contato de Emergência': invite.emergencyContact,
+        'Status': getInviteStatus(invite.status),
+        'Data de Registro': formatDate(invite.createdAt),
+        'Último Pagamento': lastSuccessfulCheckout ? formatCurrency(lastSuccessfulCheckout.amount) : '-',
+        'Método de Pagamento': lastSuccessfulCheckout ? getPaymentMethodLabel(lastSuccessfulCheckout.paymentMethod) : '-',
+        'Data do Pagamento': lastSuccessfulCheckout ? formatDate(lastSuccessfulCheckout.createdAt) : '-'
+      }
+    })
+
+    const confirmedParticipants = allParticipants.filter(p => p.Status === 'Confirmado')
+    const pendingParticipants = allParticipants.filter(p => p.Status === 'Pendente')
+
+    // Create workbook and sheets
+    const wb = XLSX.utils.book_new()
+    
+    const wsAll = XLSX.utils.json_to_sheet(allParticipants)
+    const wsConfirmed = XLSX.utils.json_to_sheet(confirmedParticipants)
+    const wsPending = XLSX.utils.json_to_sheet(pendingParticipants)
+
+    // Add sheets to workbook
+    XLSX.utils.book_append_sheet(wb, wsAll, 'Todos os Participantes')
+    XLSX.utils.book_append_sheet(wb, wsConfirmed, 'Participantes Confirmados')
+    XLSX.utils.book_append_sheet(wb, wsPending, 'Participantes Pendentes')
+
+    // Generate and download file
+    XLSX.writeFile(wb, 'lista_participantes.xlsx')
+  }
+
   return (
     <>
       <Head>
@@ -111,9 +167,14 @@ export default function Dashboard() {
           <div className={styles.container}>
             <div className={styles.header}>
               <h1 className={styles.title}>Controle</h1>
-              <button onClick={logout} className={styles.button}>
-                Sair
-              </button>
+              <div className={styles.headerButtons}>
+                <button onClick={exportToExcel} className={styles.exportButton}>
+                  Exportar Excel
+                </button>
+                <button onClick={logout} className={styles.button}>
+                  Sair
+                </button>
+              </div>
             </div>
 
             {loading ? (
@@ -190,6 +251,11 @@ export default function Dashboard() {
                           <th>CPF</th>
                           <th>Email</th>
                           <th>Telefone</th>
+                          <th>Idade</th>
+                          <th>Data Nasc.</th>
+                          <th>Igreja</th>
+                          <th>Camiseta</th>
+                          <th>Contato Emerg.</th>
                           <th>Status</th>
                           <th>Data</th>
                         </tr>
@@ -201,6 +267,11 @@ export default function Dashboard() {
                             <td>{invite.cpf}</td>
                             <td>{invite.email}</td>
                             <td>{invite.phone}</td>
+                            <td>{invite.age}</td>
+                            <td>{formatDate(invite.birthDate)}</td>
+                            <td>{getChurchLabel(invite.church, invite.churchOther)}</td>
+                            <td>{getShirtSizeLabel(invite.shirtSize)}</td>
+                            <td>{invite.emergencyContact}</td>
                             <td>
                               <span className={`${styles.status} ${styles[`status${invite.status}`]}`}>
                                 {getInviteStatus(invite.status)}
@@ -220,4 +291,4 @@ export default function Dashboard() {
       </ProtectedRoute>
     </>
   )
-} 
+}
