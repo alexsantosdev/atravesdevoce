@@ -18,6 +18,8 @@ export interface Invite {
   churchOther?: string
   shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2'
   emergencyContact: string
+  cellGroup?: string
+  hasParticipatedPeniel: boolean
   status: InviteStatus
   checkoutId?: string
   createdAt?: string

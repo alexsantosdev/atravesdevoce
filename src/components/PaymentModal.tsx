@@ -19,6 +19,8 @@ interface CreateInviteData {
   churchOther?: string;
   shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2';
   emergencyContact: string;
+  cellGroup?: string;
+  hasParticipatedPeniel: boolean;
   status: InviteStatus;
 }
 
@@ -35,6 +37,9 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     churchOther: '',
     shirtSize: 'P' as 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2',
     emergencyContact: '',
+    participatesCell: false,
+    cellGroup: '',
+    hasParticipatedPeniel: false,
   });
 
   // Format CPF as user types (XXX.XXX.XXX-XX)
@@ -105,6 +110,13 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
         return;
       }
 
+      // Validate cell group field if participates in cell
+      if (formData.participatesCell && !formData.cellGroup.trim()) {
+        alert('Por favor, informe qual célula você participa.');
+        setLoading(false);
+        return;
+      }
+
       // Clean CPF before creating invite
       const cleanCpf = formData.cpf.replace(/\D/g, '');
 
@@ -126,6 +138,8 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
         churchOther: formData.churchOther,
         shirtSize: formData.shirtSize,
         emergencyContact: cleanEmergencyContact,
+        cellGroup: formData.participatesCell ? formData.cellGroup : undefined,
+        hasParticipatedPeniel: formData.hasParticipatedPeniel,
         status: 'PENDING',
       };
 
@@ -152,6 +166,8 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
           churchOther: formData.churchOther,
           shirtSize: formData.shirtSize,
           emergencyContact: cleanEmergencyContact,
+          cellGroup: formData.participatesCell ? formData.cellGroup : undefined,
+          hasParticipatedPeniel: formData.hasParticipatedPeniel,
           inviteId: cleanCpf,
         }),
       });
@@ -327,6 +343,42 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
               maxLength={15}
               required
             />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={formData.participatesCell}
+                onChange={(e) => setFormData({ ...formData, participatesCell: e.target.checked })}
+              />
+              Você participa de uma célula?
+            </label>
+          </div>
+
+          {formData.participatesCell && (
+            <div className={styles.formGroup}>
+              <label htmlFor="cellGroup">Qual célula você participa?</label>
+              <input
+                type="text"
+                id="cellGroup"
+                value={formData.cellGroup}
+                onChange={(e) => setFormData({ ...formData, cellGroup: e.target.value })}
+                placeholder="Ex: Célula do João"
+                required={formData.participatesCell}
+              />
+            </div>
+          )}
+
+          <div className={styles.formGroup}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={formData.hasParticipatedPeniel}
+                onChange={(e) => setFormData({ ...formData, hasParticipatedPeniel: e.target.checked })}
+              />
+              Já participou do Encontro Peniel?
+            </label>
           </div>
 
           <button type="submit" className={styles.submitButton} disabled={loading}>

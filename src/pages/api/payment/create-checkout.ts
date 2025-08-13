@@ -11,7 +11,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { name, cpf, email, phone, age, birthDate, church, churchOther, shirtSize, emergencyContact, inviteId } = req.body;
+    const { 
+      name, 
+      cpf, 
+      email, 
+      phone, 
+      age, 
+      birthDate, 
+      church, 
+      churchOther, 
+      shirtSize, 
+      emergencyContact, 
+      cellGroup,
+      hasParticipatedPeniel,
+      inviteId 
+    } = req.body;
 
     // Validate required fields
     if (!name || !cpf || !email || !phone || !age || !birthDate || !church || !shirtSize || !emergencyContact) {
@@ -29,6 +43,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
 
+    // Validate cell group field if provided
+    if (cellGroup !== undefined && cellGroup !== null && cellGroup.trim() === '') {
+      return res.status(400).json({ 
+        error: 'Invalid cell group',
+        details: 'Cell group cannot be empty if provided'
+      });
+    }
+
     // Format phone number and clean CPF
     const cleanPhone = phone.replace(/\D/g, '');
     const cleanCpf = cpf.replace(/\D/g, '');
@@ -43,7 +65,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const area = cleanPhone.substring(0, 2);
     const number = cleanPhone.substring(2);
 
-    console.log('Creating checkout for:', { name, email, cleanCpf, area, number });
+    console.log('Creating checkout for:', { 
+      name, 
+      email, 
+      cleanCpf, 
+      area, 
+      number, 
+      cellGroup, 
+      hasParticipatedPeniel 
+    });
 
     // Create payload for PagBank
     const payload = {

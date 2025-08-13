@@ -112,6 +112,14 @@ export default function Dashboard() {
     return size || '-'
   }
 
+  const getCellGroupLabel = (cellGroup?: string) => {
+    return cellGroup || 'Não participa'
+  }
+
+  const getPenielLabel = (hasParticipated?: boolean) => {
+    return hasParticipated ? 'Sim' : 'Não'
+  }
+
   const exportToExcel = () => {
     // Prepare data for each sheet
     const allParticipants = invites.map(invite => {
@@ -130,6 +138,8 @@ export default function Dashboard() {
         'Igreja': getChurchLabel(invite.church, invite.churchOther),
         'Tamanho da Camiseta': getShirtSizeLabel(invite.shirtSize),
         'Contato de Emergência': invite.emergencyContact,
+        'Célula': getCellGroupLabel(invite.cellGroup),
+        'Encontro Peniel': getPenielLabel(invite.hasParticipatedPeniel),
         'Status': getInviteStatus(invite.status),
         'Data de Registro': formatDate(invite.createdAt),
         'Último Pagamento': lastSuccessfulCheckout ? formatCurrency(lastSuccessfulCheckout.amount) : '-',
@@ -256,6 +266,8 @@ export default function Dashboard() {
                           <th>Igreja</th>
                           <th>Camiseta</th>
                           <th>Contato Emerg.</th>
+                          <th>Célula</th>
+                          <th>Encontro Peniel</th>
                           <th>Status</th>
                           <th>Data</th>
                         </tr>
@@ -272,6 +284,8 @@ export default function Dashboard() {
                             <td>{getChurchLabel(invite.church, invite.churchOther)}</td>
                             <td>{getShirtSizeLabel(invite.shirtSize)}</td>
                             <td>{invite.emergencyContact}</td>
+                            <td>{getCellGroupLabel(invite.cellGroup)}</td>
+                            <td>{getPenielLabel(invite.hasParticipatedPeniel)}</td>
                             <td>
                               <span className={`${styles.status} ${styles[`status${invite.status}`]}`}>
                                 {getInviteStatus(invite.status)}
