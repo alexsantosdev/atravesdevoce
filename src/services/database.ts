@@ -157,12 +157,18 @@ export async function updateCheckoutStatus(checkoutId: string, status: PaymentSt
   const snapshot = await get(checkoutRef);
   
   if (snapshot.exists()) {
-    await set(checkoutRef, {
+    const updateData: any = {
       ...snapshot.val(),
       status,
-      paymentMethod,
       updatedAt: new Date().toISOString(),
-    });
+    };
+    
+    // Only add paymentMethod if it's not undefined
+    if (paymentMethod !== undefined) {
+      updateData.paymentMethod = paymentMethod;
+    }
+    
+    await set(checkoutRef, updateData);
   }
 }
 

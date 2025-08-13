@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Router from 'next/router'
 
 import styles from './styles.module.scss'
 import PaymentModal from '../PaymentModal';
@@ -13,91 +14,99 @@ export default function EventDetail({ isOpen, onClose }: EventDetailProps) {
 
   const [showPaymentModal, setShowPaymentModal] = useState(false)
 
+  const handleViewTickets = () => {
+    Router.push('/meu-ingresso')
+  }
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>
+        {/* <button className={styles.closeButton} onClick={onClose}>
           ✕
-        </button>
+        </button> */}
         <div className={styles.eventContent}>
             <div className={styles.imageContainer}>
-                <img src='https://static.wixstatic.com/media/62f1e7_bd041179f8754f14b903dc280957f5bc~mv2.jpg/v1/fill/w_640,h_360,fp_0.50_0.50,q_80,usm_0.66_1.00_0.01,enc_auto/62f1e7_bd041179f8754f14b903dc280957f5bc~mv2.jpg' alt="" />
+                <img src='/images/event.jpg' alt="" />
             </div>
-            <h2>encontro através de você</h2>
-            <span>sex., 17 de out. | Cemine Word</span>
+            <h2>encontro submergidos</h2>
+            <span>19, 20 e 21 de setembro</span>
 
-            <h3>ENCONTRO "ATRAVÉS DE VOCÊ" <br /> Dias 17, 18 e 19 de OUTUBRO DE 2025.</h3>
+            <h3>ENCONTRO "SUBMERGIDOS" <br /> Dias 19, 20 e 21 de SETEMBRO DE 2025.</h3>
             <span>
-                Serão três dias intensos em um sítio, separadas exclusivamente para ouvirmos a voz de Deus e sermos ativadas no nosso propósito. <br />
-                Essa imersão é mais do que um retiro — é um chamado. Cremos que o evangelho não pode parar em nós.
+                Você achou que já tinha vivido tudo? <br />
+                Que o que você viveu ali era tudo o que o céu tinha pra te dar? <br />
+                "Deus está te chamando… <b>mais fundo</b>."
             </span>
 
             <div className={styles.sections}>
-                <h2>Horário e local</h2>
-                <span>
-                    17 de out. de 2025, 19:00 – 19 de out. de 2025, 19:00 <br />
-                    Cemine Word, Estr. do Tronco, 485 - Veraneio Maracanã, Itaquaquecetuba - SP, 08582-460, Brasil
-                </span>
-            </div>
-            <div className={styles.sections}>
                 <h2>Sobre o evento</h2>
                 <span>
-                    ENCONTRO “ATRAVÉS DE VOCÊ” – UMA IMERSÃO PARA MULHERES ✨ <br /><br />
+                    "Submergidos é onde o raso termina e o profundo começa." <br /><br />
+                    É um chamado pra quem deseja se perder nas águas do Espírito. <br /><br />
 
-                    Esse não será apenas mais um encontro… Será um marco profético na vida de muitas mulheres!
-                    Durante três dias — sexta, sábado e domingo, em um sítio preparado com muito amor — viveremos uma imersão profunda com Deus. 🌿 <br /><br />
+                    <b>Não para espectadores.</b> <br />
+                    <b>Mas para os sedentos.</b> <br />
+                    <b>Para os que desejam mais.</b> <br /> <br />
 
-                    O encontro “Através de Você” nasceu no coração de Deus como um projeto exclusivo para mulheres, com o propósito de edificar, curar, alinhar e ativar o que o céu já liberou sobre nós. <br />
-                    Você sairá desse lugar com clareza sobre o que o Senhor deseja fazer através da sua vida. <br /><br />
+                    <b>Mais presença.</b> <br />
+                    <b>Mais renúncia.</b> <br />
+                    <b>Mais profundidade.</b>" <br /> <br />
 
-                    💡 Mulheres serão fortalecidas em sua identidade, despertadas para o chamado, e capacitadas para viver o extraordinário de Deus — em casa, no trabalho, no ministério e onde forem enviadas.
+                    Esse é o tempo de romper com a superficialidade. <br />
+                    De permitir que tudo o que é raso seja deixado para trás, <br />
+                    até que só a presença dEle governe." <br /><br />
+
+                    Submergidos não é para quem apenas lembra do fogo… <br /><br />
+
+                    É para quem carrega a marca e não aceita mais viver na superfície." <br /><br />
+
+                    "Prepara teu coração… <br />
+                    Porque há profundezas reservadas pra você."
                 </span>
             </div>
 
             <div className={styles.sections}>
                 <h2>INFORMAÇÕES</h2>
                 <span>
-                    📅 Dias 17, 18 e 19 <br />
-                    📍Espaço Cemine Word – Estrada do Tronco, 485 – Itaquaquecetuba/SP <br /><br />
+                    📅 Dias 19, 20 e 21 de setembro <br /><br />
                     
                     ⸻ <br /><br />
 
-                    💰 INVESTIMENTO: R$ 387,00 <br /><br />
+                    💰 INVESTIMENTO: R$ 330,00 <br /><br />
 
                     Inclui: <br />
                     ✔️ Transporte ida e volta <br />
                     ✔️ Acomodação <br />
                     ✔️ Todas as refeições (café da manhã, almoço e jantar) <br />
-                    Obs: Bebidas do almoço e jantar serão pagas à parte. <br /><br />
 
                     ⸻ <br /><br />
 
                     🚍 TRANSPORTE: <br /><br />
 
                     Saída: Igreja FONTE – Rua Catiguá, 130 <br />
-                    Retorno: Domingo (dia 19), para o mesmo local. <br /><br />
+                    Retorno: Domingo (dia 21), para o mesmo local. <br /><br />
 
                     ⸻ <br /><br />
                     
                     🛏️ ACOMODAÇÃO: <br /><br />
 
                     <ul>
-                        <li>Quartos compartilhados com 5 a 7 mulheres</li>
+                        <li>Quartos compartilhados</li>
                         <li>1 banheiro por quarto</li>
                         <li>será necessário levar roupa de cama. ( teremos colchão de solteiro no local )</li> <br /><br />
                     </ul>
 
-                    A estrutura conta com quadras e piscinas, que serão liberadas de acordo com a programação. <br /><br />
-
                     ⸻ <br /><br />
-
-                    Essa é uma imersão transformadora, feita por Deus para mulheres como você. <br />
-                    Não é sobre você… é através de você. <br /><br />
                 </span>
 
-                <button onClick={() => setShowPaymentModal(true)}>
-                    <span>garantir meu ingresso</span>
-                </button>
+                <div className={styles.buttonGroup}>
+                    <button onClick={() => setShowPaymentModal(true)} className={styles.primaryButton}>
+                        <span>garantir meu ingresso</span>
+                    </button>
+                    <button onClick={handleViewTickets} className={styles.secondaryButton}>
+                        <span>ver meus ingressos</span>
+                    </button>
+                </div>
 
                 <br /><br />
             </div>

@@ -61,9 +61,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       items: [
         {
           reference_id: 'ATRAVES_2025',
-          name: 'Encontro através de você',
+          name: 'Encontro submergidos',
           quantity: 1,
-          unit_amount: 36700, // R$ 367,00
+          unit_amount: 33000, // R$ 330,00
         },
       ],
       payment_methods: [
@@ -130,7 +130,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await createCheckoutInDb({
       id: checkout.id,
       inviteId: cleanCpf,
-      amount: 36700, // Keep consistent with unit_amount
+      amount: 33000, // Keep consistent with unit_amount
       status: 'PENDING' as PaymentStatus,
       paymentLink,
       createdAt: new Date().toISOString(),

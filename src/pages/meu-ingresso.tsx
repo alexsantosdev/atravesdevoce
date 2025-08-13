@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Head from 'next/head'
 import { toast, Toaster } from 'sonner'
+import Router from 'next/router'
 
 import { getInviteByCpf } from '@/services/database'
 
@@ -13,48 +14,7 @@ export default function MeuIngresso() {
   const [cpf, setCpf] = useState('')
   const [loading, setLoading] = useState(false)
   const [inviteInfo, setInviteInfo] = useState<Invite | null>(null)
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
-  const [message, setMessage] = useState('Verificando seu pagamento...')
-
-  async function checkStatus() {
-    if (!cpf || typeof cpf !== 'string') {
-      setStatus('error')
-      setMessage('CPF não encontrado')
-      return
-    }
-
-    try {
-      const invite = await getInviteByCpf(cpf)
-      if (!invite || !invite.checkoutId) {
-        setStatus('error')
-        setMessage('Convite não encontrado ou sem checkout associado')
-        return
-      }
-
-      const response = await fetch(`/api/payment/check-status/${invite.checkoutId}`)
-      if (!response.ok) {
-        throw new Error('Erro ao verificar status do pagamento');
-      }
-
-      const data = await response.json()
-      
-      const paymentStatus = data.order?.charges?.[0]?.status || data.status;
-      
-      if (paymentStatus === 'PAID') {
-        setStatus('success')
-        setMessage('Pagamento confirmado! Você será redirecionado para a página inicial em alguns segundos.')
-      } else if (['CANCELLED', 'DECLINED', 'FAILED'].includes(paymentStatus)) {
-        setStatus('error')
-        setMessage(`O pagamento foi ${paymentStatus.toLowerCase()}. Por favor, tente novamente.`)
-      } else {
-        setTimeout(checkStatus, 5000)
-      }
-    } catch (error) {
-      console.error('Error checking payment status:', error)
-      setStatus('error')
-      setMessage(error instanceof Error ? error.message : 'Erro ao verificar status do pagamento')
-    }
-  }
+  const [showTicket, setShowTicket] = useState(false)
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -65,28 +25,35 @@ export default function MeuIngresso() {
     }
     
     try {
-      await checkStatus()
       const formattedCpf = cpf.replace(/\D/g, '')
       const invite = await getInviteByCpf(formattedCpf)
       
       if (invite) {
         setInviteInfo(invite)
+        setShowTicket(true)
+        toast.success('Ingresso encontrado!')
       } else {
         toast.error('Ingresso não encontrado')
         setInviteInfo(null)
+        setShowTicket(false)
       }
     } catch (error) {
       toast.error('Erro ao buscar ingresso')
       setInviteInfo(null)
+      setShowTicket(false)
     } finally {
       setLoading(false)
     }
   }
 
+  const handleBackToHome = () => {
+    Router.push('/')
+  }
+
   return (
     <>
       <Head>
-        <title>Meu Ingresso | Através de você</title>
+        <title>Meu Ingresso | Encontro Submergidos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -111,28 +78,74 @@ export default function MeuIngresso() {
             </button>
           </form>
 
-          {inviteInfo && (
-            <div className={styles.ticketInfo}>
-              <h2>Informações do Ingresso</h2>
-              <div className={styles.status}>
-                Status: <span className={inviteInfo.status === 'CONFIRMED' ? styles.confirmed : styles.pending}>
-                  {inviteInfo.status === 'CONFIRMED' ? 'Confirmado' : 'Pendente'}
-                </span>
+          {inviteInfo && showTicket && (
+            <div className={styles.successPage}>
+              <div className={styles.successPageContent}>
+                <div className={styles.successHeader}>
+                  <div className={styles.successIcon}>✓</div>
+                  <span>ENCONTRO SUBMERGIDOS</span>
+                  <h2>Seu ingresso foi encontrado!</h2>
+                  <p>
+                    Aqui estão os detalhes do seu ingresso para o Encontro Submergidos.
+                  </p>
+                </div>
+                
+                <div className={styles.eventImage}>
+                  <img src='/images/event.jpg' alt='Encontro Submergidos' />
+                </div>
+                
+                <div className={styles.eventInfo}>
+                  <h3>Informações do Participante e Evento</h3>
+                  <div className={styles.infoGrid}>
+                    <div className={styles.infoItem}>
+                      <span className={styles.label}>👤 Participante:</span>
+                      <span className={styles.value}>{inviteInfo?.name || 'N/A'}</span>
+                    </div>
+                    <div className={styles.infoItem}>
+                      <span className={styles.label}>📧 Email:</span>
+                      <span className={styles.value}>{inviteInfo?.email || 'N/A'}</span>
+                    </div>
+                    <div className={styles.infoItem}>
+                      <span className={styles.label}>📱 Telefone:</span>
+                      <span className={styles.value}>{inviteInfo?.phone || 'N/A'}</span>
+                    </div>
+                    <div className={styles.infoItem}>
+                      <span className={styles.label}>📅 Data:</span>
+                      <span className={styles.value}>19, 20 e 21 de Setembro</span>
+                    </div>
+                    <div className={styles.infoItem}>
+                      <span className={styles.label}>💰 Valor:</span>
+                      <span className={styles.value}>R$ 330,00</span>
+                    </div>
+                    <div className={styles.infoItem}>
+                      <span className={styles.label}>🚍 Transporte:</span>
+                      <span className={styles.value}>Incluído (ida e volta)</span>
+                    </div>
+                    <div className={styles.infoItem}>
+                      <span className={styles.label}>🛏️ Acomodação:</span>
+                      <span className={styles.value}>Incluída</span>
+                    </div>
+                    <div className={styles.infoItem}>
+                      <span className={styles.label}>🍽️ Refeições:</span>
+                      <span className={styles.value}>Café, almoço e jantar</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.actions}>
+                  <button onClick={handleBackToHome} className={styles.primaryButton}>
+                    <span>Voltar ao início</span>
+                  </button>
+                </div>
               </div>
-              {/* <div className={styles.details}>
-                <p><strong>Nome:</strong> {inviteInfo.name}</p>
-                <p><strong>Data:</strong> 23 e 24 de maio</p>
-                <p><strong>Horário:</strong> 23/05 às 19:30 e 24/05 às 15:00</p>
-                <p><strong>Local:</strong> Rua Catiguá, 130 - Portal dos Ipês, Cajamar</p>
-              </div> */}
+              
+              <div className={styles.ticketSection}>
+                <div className={styles.ticketHeader}>
+                  <img src='/images/camera.svg' alt='camera icon' />
+                  <span>Tire print do seu ingresso e compartilhe em suas redes, marcando <b>@fonteigreja</b></span>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
-        <div className={styles.ticket}>
-          <img src='/images/camera.svg' alt='camera icon' />
-          <span>Tire print do seu ingresso e comparilhe em suas redes, marcando o <b>@atravesdevoce__</b></span>
-          {(inviteInfo && inviteInfo.status === 'CONFIRMED') && (
-            <Ticket name={inviteInfo?.name} />
           )}
         </div>
       </main>

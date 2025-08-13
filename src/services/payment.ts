@@ -40,9 +40,9 @@ export async function createCheckout(data: {
         items: [
           {
             reference_id: 'ATRAVES_2025',
-            name: 'Encontro através de você',
+            name: 'Encontro submergidos',
             quantity: 1,
-            unit_amount: 36700,
+            unit_amount: 33000,
           },
         ],
         payment_methods: [

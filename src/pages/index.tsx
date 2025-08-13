@@ -9,13 +9,13 @@ import EventDetail from '@/components/EventDetail'
 import styles from '@/styles/Home.module.scss'
 
 export default function Home() {
-  const [showEventDetail, setShowEventDetail] = useState(false)
+  const [showEventDetail, setShowEventDetail] = useState(true)
   const [showPaymentModal, setShowPaymentModal] = useState(false)
 
   return (
     <>
       <Head>
-        <title>Conferência de mulheres | Através de você</title>
+        <title>Encontro Submergidos | Fonte Igreja Apostólica</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -23,9 +23,9 @@ export default function Home() {
       <Header />
       <Toaster position='bottom-center' />
       <main className={styles.mainContainer}>
-        <div className={styles.headerBackground}>
+        {/* <div className={styles.headerBackground}>
           <div className={styles.container}>
-            <h2>encontro através de você</h2>
+            <h2>Encontro submergidos</h2>
             <h3>dias 17, 18 e 19 de outubro</h3>
             <button onClick={() => setShowEventDetail(true)}>inscreva-se</button>
           </div>
@@ -33,7 +33,7 @@ export default function Home() {
         <div className={styles.backgroundImage} />
         <div className={styles.eventInfo}>
           <div className={styles.eventInfoImageContainer}>
-            <img src='https://static.wixstatic.com/media/62f1e7_7764c76574b34f19885e0a2439005e0a~mv2.jpg/v1/fill/w_280,h_351,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/17935388868018537.jpg' alt="" />
+            <img src='/images/event.jpg' alt="" />
           </div>
           <h2>Encontro <span>Através de você</span></h2>
           <span>
@@ -41,7 +41,7 @@ export default function Home() {
             Essa imersão é mais do que um retiro — é um chamado. Cremos que o evangelho não pode parar em nós… Ele precisa fluir através de nós. 
           </span>
           <button onClick={() => setShowEventDetail(true)}>inscreva-se</button>
-        </div>
+        </div> */}
         <EventDetail isOpen={showEventDetail} onClose={() => setShowEventDetail(false)} />
       </main>
       {/* <main className={styles.mainContainer}>

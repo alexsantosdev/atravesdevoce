@@ -10,6 +10,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Set headers to prevent caching
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('ETag', `"${Date.now()}"`);
+
   try {
     const { id } = req.query;
     if (!id || typeof id !== 'string') {
@@ -38,6 +44,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // If there's an order, get its details
     let orderData = null;
+    let finalStatus = checkoutData.status; // Default to checkout status
+    let paymentMethod = undefined;
+
     if (checkoutData.orders?.[0]?.id) {
       const orderResponse = await fetch(`${PAGBANK_API_URL}/orders/${checkoutData.orders[0].id}`, {
         headers: {
@@ -48,27 +57,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       if (orderResponse.ok) {
         orderData = await orderResponse.json();
-        const paymentStatus = mapPagBankStatusToTransactionStatus(orderData.charges?.[0]?.status);
-        const paymentMethod = orderData.charges?.[0]?.payment_method?.type 
-          ? mapPagBankPaymentMethod(orderData.charges[0].payment_method.type)
-          : undefined;
+        finalStatus = orderData.charges?.[0]?.status || orderData.status;
         
-        // Update checkout status in our database
-        await updateCheckoutStatus(id, paymentStatus, paymentMethod);
-
-        if (orderData.charges?.[0]?.status === 'PAID') {
-          await updateInviteByCheckoutId(id, 'CONFIRMED');
-        } else if (['CANCELLED', 'DECLINED', 'FAILED'].includes(orderData.charges?.[0]?.status)) {
-          await updateInviteByCheckoutId(id, 'CANCELLED');
+        // Map payment method if available
+        if (orderData.charges?.[0]?.payment_method?.type) {
+          paymentMethod = mapPagBankPaymentMethod(orderData.charges[0].payment_method.type);
         }
         
-        // Update invite status based on order status
-        if (orderData.status === 'PAID') {
+        // Map status to our internal status
+        const mappedStatus = mapPagBankStatusToTransactionStatus(finalStatus);
+        
+        // Update checkout status in our database
+        await updateCheckoutStatus(id, mappedStatus, paymentMethod);
+
+        // Update invite status based on payment status
+        if (finalStatus === 'PAID') {
+          await updateInviteByCheckoutId(id, 'CONFIRMED');
           await updateInvite(checkout.inviteId, {
             status: 'CONFIRMED',
             updatedAt: new Date().toISOString(),
           });
-        } else if (['CANCELLED', 'DECLINED', 'FAILED'].includes(orderData.status)) {
+        } else if (['CANCELLED', 'DECLINED', 'FAILED'].includes(finalStatus)) {
+          await updateInviteByCheckoutId(id, 'CANCELLED');
           await updateInvite(checkout.inviteId, {
             status: 'CANCELLED',
             updatedAt: new Date().toISOString(),
@@ -77,14 +87,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     } else {
       // If no order yet, update checkout status from checkout data
-      const paymentStatus = mapPagBankStatusToTransactionStatus(checkoutData.status);
-      await updateCheckoutStatus(id, paymentStatus);
+      const mappedStatus = mapPagBankStatusToTransactionStatus(checkoutData.status);
+      await updateCheckoutStatus(id, mappedStatus);
     }
 
     return res.status(200).json({
       checkout: checkoutData,
       order: orderData,
-      status: orderData?.status || checkoutData.status,
+      status: finalStatus,
+      paymentMethod,
+      mappedStatus: mapPagBankStatusToTransactionStatus(finalStatus)
     });
   } catch (error) {
     console.error('Error checking payment status:', error);
