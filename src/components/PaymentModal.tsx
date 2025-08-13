@@ -19,7 +19,7 @@ interface CreateInviteData {
   churchOther?: string;
   shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2';
   emergencyContact: string;
-  cellGroup?: string;
+  cellGroup?: string | null;
   hasParticipatedPeniel: boolean;
   status: InviteStatus;
 }
@@ -138,7 +138,7 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
         churchOther: formData.churchOther,
         shirtSize: formData.shirtSize,
         emergencyContact: cleanEmergencyContact,
-        cellGroup: formData.participatesCell ? formData.cellGroup : undefined,
+        cellGroup: formData.participatesCell ? formData.cellGroup : null,
         hasParticipatedPeniel: formData.hasParticipatedPeniel,
         status: 'PENDING',
       };
@@ -166,7 +166,7 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
           churchOther: formData.churchOther,
           shirtSize: formData.shirtSize,
           emergencyContact: cleanEmergencyContact,
-          cellGroup: formData.participatesCell ? formData.cellGroup : undefined,
+          cellGroup: formData.participatesCell ? formData.cellGroup : null,
           hasParticipatedPeniel: formData.hasParticipatedPeniel,
           inviteId: cleanCpf,
         }),

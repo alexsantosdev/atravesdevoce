@@ -112,7 +112,7 @@ export default function Dashboard() {
     return size || '-'
   }
 
-  const getCellGroupLabel = (cellGroup?: string) => {
+  const getCellGroupLabel = (cellGroup?: string | null) => {
     return cellGroup || 'Não participa'
   }
 
