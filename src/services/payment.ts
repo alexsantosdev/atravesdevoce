@@ -137,11 +137,15 @@ export function mapPagBankStatusToTransactionStatus(status: string): PaymentStat
   switch (status) {
     case 'PAID':
       return 'PAID'
+    case 'ACTIVE':
+      return 'PENDING'
     case 'CANCELLED':
       return 'CANCELLED'
     case 'REFUNDED':
       return 'REFUNDED'
     case 'FAILED':
+      return 'FAILED'
+    case 'DECLINED':
       return 'FAILED'
     default:
       return 'PENDING'
