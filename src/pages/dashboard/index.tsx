@@ -120,6 +120,28 @@ export default function Dashboard() {
     return hasParticipated ? 'Sim' : 'Não'
   }
 
+  const getGenderLabel = (gender?: string) => {
+    switch (gender) {
+      case 'MASCULINO':
+        return 'Masculino'
+      case 'FEMININO':
+        return 'Feminino'
+      default:
+        return '-'
+    }
+  }
+
+  const getTransportationLabel = (transportation?: string) => {
+    switch (transportation) {
+      case 'IGREJA':
+        return 'Transporte da Igreja'
+      case 'PROPRIO':
+        return 'Transporte Próprio'
+      default:
+        return '-'
+    }
+  }
+
   const exportToExcel = () => {
     // Prepare data for each sheet
     const allParticipants = invites.map(invite => {
@@ -135,11 +157,13 @@ export default function Dashboard() {
         'Telefone': invite.phone,
         'Idade': invite.age,
         'Data de Nascimento': formatDate(invite.birthDate),
+        'Gênero': getGenderLabel(invite.gender),
         'Igreja': getChurchLabel(invite.church, invite.churchOther),
         'Tamanho da Camiseta': getShirtSizeLabel(invite.shirtSize),
         'Contato de Emergência': invite.emergencyContact,
         'Célula': getCellGroupLabel(invite.cellGroup),
         'Encontro Peniel': getPenielLabel(invite.hasParticipatedPeniel),
+        'Transporte': getTransportationLabel(invite.transportation),
         'Status': getInviteStatus(invite.status),
         'Data de Registro': formatDate(invite.createdAt),
         'Último Pagamento': lastSuccessfulCheckout ? formatCurrency(lastSuccessfulCheckout.amount) : '-',
@@ -263,11 +287,13 @@ export default function Dashboard() {
                           <th>Telefone</th>
                           <th>Idade</th>
                           <th>Data Nasc.</th>
+                          <th>Gênero</th>
                           <th>Igreja</th>
                           <th>Camiseta</th>
                           <th>Contato Emerg.</th>
                           <th>Célula</th>
                           <th>Encontro Peniel</th>
+                          <th>Transporte</th>
                           <th>Status</th>
                           <th>Data</th>
                         </tr>
@@ -281,11 +307,13 @@ export default function Dashboard() {
                             <td>{invite.phone}</td>
                             <td>{invite.age}</td>
                             <td>{formatDate(invite.birthDate)}</td>
+                            <td>{getGenderLabel(invite.gender)}</td>
                             <td>{getChurchLabel(invite.church, invite.churchOther)}</td>
                             <td>{getShirtSizeLabel(invite.shirtSize)}</td>
                             <td>{invite.emergencyContact}</td>
                             <td>{getCellGroupLabel(invite.cellGroup)}</td>
                             <td>{getPenielLabel(invite.hasParticipatedPeniel)}</td>
+                            <td>{getTransportationLabel(invite.transportation)}</td>
                             <td>
                               <span className={`${styles.status} ${styles[`status${invite.status}`]}`}>
                                 {getInviteStatus(invite.status)}

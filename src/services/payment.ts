@@ -10,10 +10,12 @@ export async function createCheckout(data: {
   phone: string
   age: number
   birthDate: string
+  gender: 'MASCULINO' | 'FEMININO'
   church: 'FONTE' | 'OUTROS'
   churchOther?: string
   shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2'
   emergencyContact: string
+  transportation: 'IGREJA' | 'PROPRIO'
   inviteId: string
 }) {
   try {

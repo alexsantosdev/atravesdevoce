@@ -15,12 +15,14 @@ interface CreateInviteData {
   phone: string;
   age: number;
   birthDate: string;
+  gender: 'MASCULINO' | 'FEMININO';
   church: 'FONTE' | 'OUTROS';
   churchOther?: string;
   shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2';
   emergencyContact: string;
   cellGroup?: string | null;
   hasParticipatedPeniel: boolean;
+  transportation: 'IGREJA' | 'PROPRIO';
   status: InviteStatus;
 }
 
@@ -33,6 +35,7 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     phone: '',
     age: '',
     birthDate: '',
+    gender: 'MASCULINO' as 'MASCULINO' | 'FEMININO',
     church: 'FONTE' as 'FONTE' | 'OUTROS',
     churchOther: '',
     shirtSize: 'P' as 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2',
@@ -40,6 +43,7 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     participatesCell: false,
     cellGroup: '',
     hasParticipatedPeniel: false,
+    transportation: 'IGREJA' as 'IGREJA' | 'PROPRIO',
   });
 
   // Format CPF as user types (XXX.XXX.XXX-XX)
@@ -96,8 +100,8 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     try {
       // Validate required fields
       if (!formData.name || !formData.cpf || !formData.email || !formData.phone || 
-          !formData.age || !formData.birthDate || !formData.church || 
-          !formData.shirtSize || !formData.emergencyContact) {
+          !formData.age || !formData.birthDate || !formData.gender || !formData.church || 
+          !formData.shirtSize || !formData.emergencyContact || !formData.transportation) {
         alert('Por favor, preencha todos os campos obrigatórios.');
         setLoading(false);
         return;
@@ -134,12 +138,14 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
         phone: cleanPhone,
         age: parseInt(formData.age),
         birthDate: formData.birthDate,
+        gender: formData.gender,
         church: formData.church,
         churchOther: formData.churchOther,
         shirtSize: formData.shirtSize,
         emergencyContact: cleanEmergencyContact,
         cellGroup: formData.participatesCell ? formData.cellGroup : null,
         hasParticipatedPeniel: formData.hasParticipatedPeniel,
+        transportation: formData.transportation,
         status: 'PENDING',
       };
 
@@ -162,12 +168,14 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
           phone: cleanPhone,
           age: parseInt(formData.age),
           birthDate: formData.birthDate,
+          gender: formData.gender,
           church: formData.church,
           churchOther: formData.churchOther,
           shirtSize: formData.shirtSize,
           emergencyContact: cleanEmergencyContact,
           cellGroup: formData.participatesCell ? formData.cellGroup : null,
           hasParticipatedPeniel: formData.hasParticipatedPeniel,
+          transportation: formData.transportation,
           inviteId: cleanCpf,
         }),
       });
@@ -277,6 +285,32 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
           </div>
 
           <div className={styles.formGroup}>
+            <label>Gênero</label>
+            <div className={styles.checkboxGroup}>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="MASCULINO"
+                  checked={formData.gender === 'MASCULINO'}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value as 'MASCULINO' | 'FEMININO' })}
+                />
+                Masculino
+              </label>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="FEMININO"
+                  checked={formData.gender === 'FEMININO'}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value as 'MASCULINO' | 'FEMININO' })}
+                />
+                Feminino
+              </label>
+            </div>
+          </div>
+
+          <div className={styles.formGroup}>
             <label>De qual igreja você faz parte?</label>
             <div className={styles.checkboxGroup}>
               <label className={styles.checkboxLabel}>
@@ -369,6 +403,32 @@ export default function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
               />
             </div>
           )}
+
+          <div className={styles.formGroup}>
+            <label>Transporte</label>
+            <div className={styles.checkboxGroup}>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="transportation"
+                  value="IGREJA"
+                  checked={formData.transportation === 'IGREJA'}
+                  onChange={(e) => setFormData({ ...formData, transportation: e.target.value as 'IGREJA' | 'PROPRIO' })}
+                />
+                Transporte da Igreja
+              </label>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="radio"
+                  name="transportation"
+                  value="PROPRIO"
+                  checked={formData.transportation === 'PROPRIO'}
+                  onChange={(e) => setFormData({ ...formData, transportation: e.target.value as 'IGREJA' | 'PROPRIO' })}
+                />
+                Transporte Próprio
+              </label>
+            </div>
+          </div>
 
           <div className={styles.formGroup}>
             <label className={styles.checkboxLabel}>

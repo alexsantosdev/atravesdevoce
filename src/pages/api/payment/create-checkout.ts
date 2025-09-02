@@ -18,17 +18,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       phone, 
       age, 
       birthDate, 
+      gender,
       church, 
       churchOther, 
       shirtSize, 
       emergencyContact, 
       cellGroup,
       hasParticipatedPeniel,
+      transportation,
       inviteId 
     } = req.body;
 
     // Validate required fields
-    if (!name || !cpf || !email || !phone || !age || !birthDate || !church || !shirtSize || !emergencyContact) {
+    if (!name || !cpf || !email || !phone || !age || !birthDate || !gender || !church || !shirtSize || !emergencyContact || !transportation) {
       return res.status(400).json({ 
         error: 'Missing required fields',
         details: 'All fields are required'

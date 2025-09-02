@@ -14,12 +14,14 @@ export interface Invite {
   phone: string
   age: number
   birthDate: string
+  gender: 'MASCULINO' | 'FEMININO'
   church: 'FONTE' | 'OUTROS'
   churchOther?: string
   shirtSize: 'P' | 'M' | 'G' | 'GG' | 'G1' | 'G2'
   emergencyContact: string
   cellGroup?: string | null
   hasParticipatedPeniel: boolean
+  transportation: 'IGREJA' | 'PROPRIO'
   status: InviteStatus
   checkoutId?: string
   createdAt?: string
